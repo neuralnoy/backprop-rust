@@ -1,0 +1,3 @@
+[workspace]
+members = ["ml_core", "cli"]
+resolver = "3"
