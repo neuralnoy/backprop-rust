@@ -1,11 +1,9 @@
-#[allow(dead_code)]
 pub struct Matrix {
     rows: usize,
     cols: usize,
     data: Vec<f64>,
 }
 
-#[allow(dead_code)]
 impl Matrix {
     pub fn zeros(rows: usize, cols: usize) -> Self {
         Self {
@@ -32,5 +30,21 @@ impl Matrix {
             cols: self.cols,
             data: new_data,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_zeros() {
+        let m = Matrix::zeros(2, 3);
+
+        assert_eq!(m.rows, 2);
+        assert_eq!(m.cols, 3);
+        assert_eq!(m.data.len(), 6);
+
+        assert_eq!(m.data, vec![0.0; 6]);
     }
 }
