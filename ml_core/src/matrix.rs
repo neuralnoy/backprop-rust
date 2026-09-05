@@ -68,6 +68,25 @@ impl Matrix {
             data: new_data,
         }
     }
+
+    pub fn hadamard(&self, other: &Matrix) -> Self {
+        if self.rows != other.rows || self.cols != other.cols {
+            panic!("Matrix dimensions must match for addition");
+        }
+
+        let new_data: Vec<f64> = self
+            .data
+            .iter()
+            .zip(other.data.iter())
+            .map(|(a, b)| a * b)
+            .collect();
+
+        Self {
+            rows: self.rows,
+            cols: self.cols,
+            data: new_data,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -138,5 +157,24 @@ mod tests {
         assert_eq!(result.rows, 3);
         assert_eq!(result.cols, 2);
         assert_eq!(result.data, vec![1.0, 4.0, 2.0, 5.0, 3.0, 6.0]);
+    }
+
+    #[test]
+    fn test_hadamard() {
+        let m1 = Matrix {
+            rows: 2,
+            cols: 2,
+            data: vec![1.0, 2.0, 3.0, 4.0],
+        };
+        let m2 = Matrix {
+            rows: 2,
+            cols: 2,
+            data: vec![5.0, 6.0, 7.0, 8.0],
+        };
+        let result = m1.hadamard(&m2);
+
+        assert_eq!(result.rows, 2);
+        assert_eq!(result.cols, 2);
+        assert_eq!(result.data, vec![5.0, 12.0, 21.0, 32.0]);
     }
 }
