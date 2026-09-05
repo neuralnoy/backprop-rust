@@ -21,7 +21,11 @@ impl Matrix {
         let new_data: Vec<f64> = self
             .data
             .iter()
-            .zip(other.data.iter())
+            .zip(
+                other
+                    .data
+                    .iter(),
+            )
             .map(|(a, b)| a + b)
             .collect();
 
@@ -77,8 +81,26 @@ impl Matrix {
         let new_data: Vec<f64> = self
             .data
             .iter()
-            .zip(other.data.iter())
+            .zip(
+                other
+                    .data
+                    .iter(),
+            )
             .map(|(a, b)| a * b)
+            .collect();
+
+        Self {
+            rows: self.rows,
+            cols: self.cols,
+            data: new_data,
+        }
+    }
+
+    pub fn map(&self, func: impl Fn(f64) -> f64) -> Self {
+        let new_data: Vec<f64> = self
+            .data
+            .iter()
+            .map(|&val| func(val))
             .collect();
 
         Self {
@@ -99,7 +121,11 @@ mod tests {
 
         assert_eq!(m.rows, 2);
         assert_eq!(m.cols, 3);
-        assert_eq!(m.data.len(), 6);
+        assert_eq!(
+            m.data
+                .len(),
+            6
+        );
 
         assert_eq!(m.data, vec![0.0; 6]);
     }
@@ -176,5 +202,19 @@ mod tests {
         assert_eq!(result.rows, 2);
         assert_eq!(result.cols, 2);
         assert_eq!(result.data, vec![5.0, 12.0, 21.0, 32.0]);
+    }
+
+    #[test]
+    fn test_map() {
+        let m = Matrix {
+            rows: 2,
+            cols: 2,
+            data: vec![1.0, 2.0, 3.0, 4.0],
+        };
+        let result = m.map(|x| x * 2.0);
+
+        assert_eq!(result.rows, 2);
+        assert_eq!(result.cols, 2);
+        assert_eq!(result.data, vec![2.0, 4.0, 6.0, 8.0]);
     }
 }

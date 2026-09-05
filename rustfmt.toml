@@ -1,0 +1,5 @@
+    # Forces formatting to use multiple lines for chained method calls
+    # if there are more than a certain number of elements.
+    format_strings = true
+    # This setting specifically makes chains break more aggressively:
+    chain_width = 1
